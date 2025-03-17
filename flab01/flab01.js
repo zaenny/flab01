@@ -2,7 +2,7 @@
 //mapdeepcopy
 
 function deepCopyObj(value) {
-  if (value === null || typeof value == !Object) {
+  if (value === null || typeof value !== Object) {
     return value;
   }
 
@@ -30,6 +30,10 @@ function deepCopyObj(value) {
   if (value instanceof RegExp) {
     return new RegExp(value.source, value.flags);
   }
+
+  if (Array.isArray(value)) {
+    return value.map((item) => deepCopyObj(item));
+  }
 }
 
 // 테스트 함수
@@ -49,6 +53,7 @@ function testMap() {
 
   // 테스트 2: 복사본이 원본의 값을 제대로 가지고 있는지 확인
   console.log("key1의 값이 동일한가?", copiedMap.get("key1") === "value1");
+  console.log("key2의 값 : ", copiedMap.get("key2"));
   console.log(
     "key2의 name이 동일한가?",
     copiedMap.get("key2").name === "홍길동"
